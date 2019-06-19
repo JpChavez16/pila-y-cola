@@ -158,20 +158,6 @@ typedef struct nodo
 	}
 	
 	
-	void eliminar()
-	{
-		Nodo *aux=NULL;
-		while(lista!=NULL)
-		{
-			aux = lista;
-			cout<<"Elemento eliminado "<<aux->dato<<endl;
-			lista=aux->siguiente;
-			delete(aux);
-			
-		}
-	}
-	
-	
 	void visualizarDatos()
 	{   
 	    while(lista!=NULL)

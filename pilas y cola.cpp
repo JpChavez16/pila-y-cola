@@ -1,4 +1,4 @@
-#include<iostream>;
+#include<iostream>
 using namespace std;
 
 typedef struct nodo
@@ -191,10 +191,7 @@ int main()
     cout<<"Lista enlazada ordenada"<<endl;
     visualizarDatos();
     cout<<endl;
-    cout<<"Eliminar el primer elemento"<<endl;
-    eliminar();
-
-
     return 0;
 }
+//
 

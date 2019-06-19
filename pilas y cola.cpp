@@ -156,6 +156,17 @@ typedef struct nodo
 	        cola=cola->siguiente;
 	    }   
 	}
+		
+	
+	int pop()
+	{
+	 
+	 int x;
+	 x = lista->dato;
+	 lista = lista->siguiente;
+	 cout<<"Elemento eliminado :"<<x<<endl;
+	 return x;
+	}
 	
 	
 	void visualizarDatos()
@@ -166,6 +177,7 @@ typedef struct nodo
 	        lista=lista->siguiente;
 	    }       
 	}
+	
 
 int main()
 {
@@ -174,9 +186,12 @@ int main()
     cout<<"Datos para la cola"<<endl;
     llenarCola();
     ListaEnlazadaOrdenada();
-    cout<<"Lista enlazada ordenada"<<endl;
-    visualizarDatos();
-    cout<<endl;
+    cout<<endl<<"Eliminar"<<endl;
+	pop();
+	cout<<endl;
+	cout<<"Pila y cola"<<endl;	
+	visualizarDatos();
+  
     return 0;
 }
 //https://es.calameo.com/read/00099798206b0eb7a2eb2

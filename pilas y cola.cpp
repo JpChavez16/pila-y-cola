@@ -187,10 +187,10 @@ int main()
     llenarCola();
     ListaEnlazadaOrdenada();
     cout<<endl<<"Eliminar"<<endl;
-	pop();
-	cout<<endl;
-	cout<<"Pila y cola"<<endl;	
-	visualizarDatos();
+    pop();
+    cout<<endl;
+    cout<<"Pila y cola"<<endl;	
+    visualizarDatos();
   
     return 0;
 }

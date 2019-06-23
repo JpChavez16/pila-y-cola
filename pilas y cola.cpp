@@ -1,198 +1,172 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-typedef struct nodo
+template <typename T>
+class nodo
 {
-    int dato;
-    struct nodo *siguiente;
+	T data;
+	nodo<T> *siguiente;
     
-}Nodo;
-
-	Nodo *principioPila = NULL;
-	Nodo *primeroCola = NULL;
-	Nodo *ultimoCola = NULL;
-	Nodo *lista = NULL;
-
-
-	int introducirDatos()
-	{
-	    int x;
-	    cout<<("Numero: ");
-	    cin>>x;
-	    return x;
-	}
-	void meterPila()
-	{
-	    Nodo *nuevo;
-	    int numero = introducirDatos();
+    public:
+	nodo(){this->data=NULL,this->siguiente=NULL;}
+	nodo(T data_){this->data=data_,this->siguiente=NULL;}
+	void setsiguiente(nodo<T> *sig){siguiente=sig;}
+	void setdata(T data){this->data=data;}
+	nodo<T>* getsiguiente(){return siguiente;}
+	T getdata(){return data;}	
+};
 	
-	    while(numero!=0)
-	    {
-	        Nodo *nuevo = new Nodo;
-	        nuevo->dato=numero;
-	        nuevo->siguiente=principioPila;
-	        principioPila=nuevo;
-	        numero=introducirDatos();
-	    }
-	}
-	
-	
-	void llenarCola()
-	{
-	    Nodo *nuevo;
-	    int numero=introducirDatos();
-	
-	    while(numero!=0)
-	    {
-	        Nodo *nuevo = new Nodo;
-	        nuevo->dato=numero;
-	
-	        if(ultimoCola==NULL)
-	        {
-	            nuevo->siguiente=NULL;
-	            primeroCola=nuevo;
-	            ultimoCola=nuevo;
-	        }
-	        else
-	        {
-	            nuevo->siguiente=NULL;
-	            ultimoCola->siguiente=nuevo;
-	            ultimoCola=nuevo;
-	        }       
-	        numero=introducirDatos();
-	    }
-	}
-	
-	
-	
-	
-	
-	void ListaEnlazadaOrdenada()
-	{
-	    Nodo *pila,*cola,*pivote,*auxiliar,*anterior;
-	    int valor;
-	
-	    pila=principioPila;
-	    while(pila!=NULL)
-	    {   
-	        valor=pila->dato;
-	        Nodo *pivote = new Nodo;;
-	        pivote->dato=valor;
-	        if(lista==NULL)
-	        {
-	            pivote->siguiente=lista;
-	            lista=pivote;
-	        }
-	        else
-	        {
-	            auxiliar=lista;
-	            if(pivote->dato < auxiliar->dato)
-	            {
-	                pivote->siguiente=auxiliar;
-	                lista=pivote;
-	            }
-	            else
-	            {
-	                while(auxiliar!=NULL && pivote->dato > auxiliar->dato)
-	                {
-	                    anterior=auxiliar;
-	                    auxiliar=auxiliar->siguiente;
-	                }
-	                if(auxiliar!=NULL)
-	                {
-	                    anterior->siguiente=pivote;
-	                    pivote->siguiente=auxiliar;
-	                }
-	                else
-	                {
-	                    anterior->siguiente=pivote;
-	                    pivote->siguiente=NULL;
-	                }
-	            }
-	        }
-	        pila=pila->siguiente;
-	    }
-	
-	    
-	    
-	    cola=primeroCola;
-	    while(cola!=NULL)
-	    {
-	        valor=cola->dato;
-	        Nodo *pivote = new Nodo;
-	        pivote->dato=valor;
-	        if(lista==NULL)
-	        {
-	            pivote->siguiente=lista;
-	            lista=pivote;
-	        }
-	        else
-	        {
-	            auxiliar=lista;
-	            if(pivote->dato < auxiliar->dato)
-	            {
-	                pivote->siguiente=auxiliar;
-	                lista=pivote;
-	            }
-	            else
-	            {
-	                while(auxiliar!=NULL && pivote->dato > auxiliar->dato)
-	                {
-	                    anterior=auxiliar;
-	                    auxiliar=auxiliar->siguiente;
-	                }
-	                if(auxiliar!=NULL)
-	                {
-	                    anterior->siguiente=pivote;
-	                    pivote->siguiente=auxiliar;
-	                }
-	                else
-	                {
-	                    anterior->siguiente=pivote;
-	                    pivote->siguiente=NULL;
-	                }
-	            }
-	        }
-	        cola=cola->siguiente;
-	    }   
-	}
+template <class T>
+class pila
+{
+	private:
+		nodo<T>* head;
+		int size;
+	public:
+		pila(){this->head=NULL,size=0;}
+		bool size_(){return size==0;}
+		int getsize(){return size;}
 		
-	
-	int pop()
-	{
-	 
-	 int x;
-	 x = lista->dato;
-	 lista = lista->siguiente;
-	 cout<<"Elemento eliminado :"<<x<<endl;
-	 return x;
-	}
-	
-	
-	void visualizarDatos()
-	{   
-	    while(lista!=NULL)
-	    {
-	        cout<<lista->dato<<" ";
-	        lista=lista->siguiente;
-	    }       
-	}
-	
+		void agregar(T data){
+			nodo<T>* aux =  new nodo<T>(data);
+		    if(size_())
+		    {
+		        head = aux;
+		    }
+		
+		    else
+		    {
+		        nodo<T>* ptr = head;
+		        while(ptr->getsiguiente() != NULL)
+		            ptr = ptr->getsiguiente();
+		        ptr->setsiguiente(aux);
+		    }
+		    size++;
+		}
+		
+		T pop_pila(){
+			if(size_()) 
+		        cout << "Pila vacia\n";
+		    else if(size == 1)
+		    {
+		        T data = head->getdata();
+		        delete head;
+		        size--;
+		        return data;
+		    }
+		    else
+		    {
+		        nodo<T>* aux = head;
+		        while(aux->getsiguiente()->getsiguiente() != NULL)
+		            aux = aux->getsiguiente();
+		        nodo<T>* eliminado = aux->getsiguiente();
+		        T data = eliminado->getdata();
+		        aux->setsiguiente(NULL);
+		        delete eliminado;
+		        size--;
+		        return data;
+		    }
+		}
+		
+		void mostrar_pila(){
+			nodo<T>* aux = head;
+		    while(aux !=NULL)
+		    {
+		      	cout<<" "<< aux->getdata()<<endl;
+		      	aux = aux->getsiguiente();
+		    }
+		}
+		
+		~pila(){
+			for(int i =0 ; i<size ; i++)
+		    {
+		        nodo<T>* eliminado = head;
+		        head = head->getsiguiente();
+		        delete eliminado;
+		    }
+		}
+			
+};
+
+template<class T>
+class cola{
+	private:
+		nodo<T>* head;
+		int size;
+	public:
+		cola(){this->head=NULL,size=0;}
+		bool size_(){return size==0;}
+		int getsize(){return size;}
+		
+		void agregar_cola(T data)
+		{
+			nodo<T>* aux =  new nodo<T>(data);
+		    if(size_())
+		        head = aux;
+		
+		    else
+		    {
+		        nodo<T>* ptr = head;
+		        while(ptr->getsiguiente() != NULL)
+		            ptr = ptr->getsiguiente();
+		        ptr->setsiguiente(aux);
+		    }
+		    size++;
+		}
+		
+		T pop_cola()
+		{
+			if(size_()) 
+		        cout << "cola vacia\n";
+		    else
+		    {
+		        nodo<T>* eliminado = head;
+		        head = head->getsiguiente();
+		        T data = eliminado->getdata();
+		        delete eliminado;
+		        size--;
+		        return data;
+    		}	
+		}
+		
+		void mostrar_cola()
+		{
+			nodo<T>* aux = head;
+		    while(aux !=NULL)
+		    {
+		      	cout<<" "<< aux->getdata()<<endl;
+		      	aux = aux->getsiguiente();
+		    }
+		}
+		~cola(){
+			for(int i =0 ; i<size ; i++)
+		    {
+		        nodo<T>* eliminado = head;
+		        head = head->getsiguiente();
+		        delete eliminado;
+		    }
+		}
+		
+		
+};
 
 int main()
-{
-    cout<<"Datos para la pila"<<endl;
-    meterPila();
-    cout<<"Datos para la cola"<<endl;
-    llenarCola();
-    ListaEnlazadaOrdenada();
-    cout<<endl<<"Eliminar"<<endl;
-    pop();
-    cout<<endl;
-    cout<<"Pila y cola"<<endl;	
-    visualizarDatos();
-  
-    return 0;
+{	
+	pila<int>pila1;
+	pila1.agregar(8);
+	pila1.agregar(28);
+	pila1.agregar(19);
+	pila1.agregar(5);
+	pila1.pop_pila();
+	pila1.mostrar_pila();
+	
+	
+	cola<int>cola1;
+	cola1.agregar_cola(13);
+	cola1.agregar_cola(7);
+	cola1.agregar_cola(6);
+	cola1.agregar_cola(1);
+	cola1.pop_cola();
+	cola1.mostrar_cola();
+	
 }
-//https://es.calameo.com/read/00099798206b0eb7a2eb2
-
